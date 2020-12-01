@@ -1,9 +1,19 @@
+
 data = open("input.txt", "r")
-datadict = {}
-for line in data:
-    line = int(line)
-    if datadict.get(line, "None") == "None":
-        datadict[2020 - line] = line;
-    else:
-        print(line*datadict.get(line))
-        print("Numbers:", line, datadict.get(line))
+# copy the data to a list
+lst = [d for d in data]
+
+def process(value):
+	result = 2020 - value
+	datadict = {}
+	for line in lst:
+	    line = int(line)
+	    if line != value:
+		    if datadict.get(line, "None") == "None":
+		    	datadict[result - line] = line
+		    else:
+		        print(line*datadict.get(line)*value)
+		        print("Numbers:", line, datadict.get(line), value) 
+
+for line in lst:
+	process(int(line))
