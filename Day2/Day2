@@ -22,14 +22,24 @@ lst = [d for d in data]
 
 
 def process(value):
-    value = value[0:-2]
-    split_string = re.split("[:, ,-]", value)
-    minimum = int(split_string[0])
-    maximum = int(split_string[1])
-    character = split_string[2]
-    password = split_string[4]
+    value = re.split("[:, ,-]", value[0:-1])
+    minimum = int(value[0])
+    maximum = int(value[1])
+    character = value[2]
+    password = value[4]
     # print(minimum, maximum, character, password)
 
+    matchcount = 0
+    for c in password:
+        if c == character:
+            matchcount += 1
+    # print(character, matchcount, password)
+    if minimum <= matchcount <= maximum:
+        return 1
+    return 0
 
+
+count = 0
 for line in lst:
-    process(line)
+    count += process(line)
+print(count)
