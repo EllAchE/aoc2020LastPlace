@@ -49,4 +49,8 @@ def genericSlope(horizontal, vertical):
     print(trees)
     return trees
 
+print('part 1')
+genericSlope(3,1)
+print('')
+
 print(genericSlope(1,1) * genericSlope(3,1) * genericSlope(5,1) * genericSlope(7,1) * genericSlope(1,2))
