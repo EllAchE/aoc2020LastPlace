@@ -27,6 +27,26 @@
 # encounter?
 
 
+### Part 1 ###
+
+data = open("input.txt", "r")
+# copy the data to a list
+lst = [d for d in data]
+
+col = 0
+trees = 0
+for line in lst:
+    line = line[0:-1]
+    if line[col] == "#":
+        trees += 1
+    # print(line, col, trees)
+    col = (col + 3) % len(line)
+print("Part 1: ", trees)
+
+
+
+### Part 2 ###
+
 data = open("input.txt", "r")
 # copy the data to a list
 lst = [d for d in data]
@@ -36,25 +56,23 @@ def genericSlope(horizontal, vertical):
     trees = 0
     vertLoop = vertical
     for line in lst:
-        if(vertLoop == 1):
+        if(vertLoop == 1 or vertLoop%2 != 1):
             vertLoop = vertical
             line = line[0:-1]
-            print('reached')
+            # print('reached')
             if line[col] == "#":
                 trees += 1
 
             col = (col + horizontal) % len(line)
-        else:
-            vertLoop = vertLoop - 1
-            continue
-        print(line, col, trees)
-        print vertical
-        print vertLoop
+        vertLoop += 1
+        # print(line, col, trees)
+        # print(vertical)
+        # print(vertLoop)
     print(trees)
     return trees
 
-print('part 1')
-genericSlope(1,2)
-print('')
+result = genericSlope(1,1)*genericSlope(3,1)*genericSlope(5,1)*genericSlope(7,1)*genericSlope(1,2)
+print('Part 2: ', result)
+
 
 #print(genericSlope(1,1) * genericSlope(3,1) * genericSlope(5,1) * genericSlope(7,1) * genericSlope(1,2))
