@@ -31,12 +31,22 @@ data = open("input.txt", "r")
 # copy the data to a list
 lst = [d for d in data]
 
-col = 0
-trees = 0
-for line in lst:
-    line = line[0:-1]
-    if line[col] == "#":
-        trees += 1
-    # print(line, col, trees)
-    col = (col + 3) % len(line)
-print(trees)
+def genericSlope(horizontal, vertical):
+    col = 0
+    trees = 0
+    vertLoop = vertical
+    for line in lst:
+        if(vertLoop == 1):
+            vertLoop = vertical
+        else:
+            vertLoop-=1
+            continue
+        line = line[0:-1]
+        if line[col] == "#":
+            trees += 1
+        #print(line, col, trees)
+        col = (col + horizontal) % len(line)
+    print(trees)
+    return trees
+
+print(genericSlope(1,1) * genericSlope(3,1) * genericSlope(5,1) * genericSlope(7,1) * genericSlope(1,2))
