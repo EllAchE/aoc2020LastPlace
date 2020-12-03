@@ -38,19 +38,23 @@ def genericSlope(horizontal, vertical):
     for line in lst:
         if(vertLoop == 1):
             vertLoop = vertical
+            line = line[0:-1]
+            print('reached')
+            if line[col] == "#":
+                trees += 1
+
+            col = (col + horizontal) % len(line)
         else:
-            vertLoop-=1
+            vertLoop = vertLoop - 1
             continue
-        line = line[0:-1]
-        if line[col] == "#":
-            trees += 1
-        #print(line, col, trees)
-        col = (col + horizontal) % len(line)
+        print(line, col, trees)
+        print vertical
+        print vertLoop
     print(trees)
     return trees
 
 print('part 1')
-genericSlope(3,1)
+genericSlope(1,2)
 print('')
 
-print(genericSlope(1,1) * genericSlope(3,1) * genericSlope(5,1) * genericSlope(7,1) * genericSlope(1,2))
+#print(genericSlope(1,1) * genericSlope(3,1) * genericSlope(5,1) * genericSlope(7,1) * genericSlope(1,2))
