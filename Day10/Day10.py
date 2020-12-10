@@ -88,7 +88,7 @@ for i in range(0, len(lst)):
 
 lst.sort()
 
-print(lst)
+# print(lst)
 
 prev = 0
 ones = 0
@@ -104,7 +104,7 @@ for line in lst:
         twos += 1
     prev = line
 
-print(ones * threes)
+print("Part 1: ",ones * threes)
 
 
 
@@ -161,21 +161,34 @@ print(ones * threes)
 # What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
 
 # Start and end values
-lst.insert(0,0)
-lst.append(195)
+# lst.insert(0,0)
+# lst.append(195)
 
 # this isn't right
-arrangements = 1
-idx = 0
-while lst[idx + 1] != 195:
-    current = lst[idx]
-    if idx+3 < len(lst) and lst[idx + 3] - current < 3:
-        arrangements *= 3
-        idx += 3
-    elif idx+2 < len(lst) and lst[idx + 2] - current < 3:
-        arrangements *= 2
-        idx += 2
-    else:
-        idx += 1
+# arrangements = 1
+# idx = 0
+# while lst[idx + 1] != 195:
+#     current = lst[idx]
+#     if idx+3 < len(lst) and lst[idx + 3] - current < 3:
+#         arrangements *= 3
+#         idx += 3
+#     elif idx+2 < len(lst) and lst[idx + 2] - current < 3:
+#         arrangements *= 2
+#         idx += 2
+#     else:
+#         idx += 1
 
-print(arrangements)
+# print(arrangements)
+
+data = open("input.txt", "r").read().split("\n")[:-1]
+lst = [int(line.strip()) for line in data]
+lst.sort()
+cache = [0] * (lst[-1] + 3)
+# initialized cache for memorization
+cache[2] = 1
+for a in lst:
+    # index +2 to account for the 3 jolts higher
+    i = a + 2
+    cache[i] = sum(cache[i-3:i])
+
+print("Part 2: ", cache[-1])
