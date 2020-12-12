@@ -31,44 +31,78 @@
 # At the end of these instructions, the ship's Manhattan distance (sum of the absolute values of its east/west position and its north/south position) from its starting position is 17 + 8 = 25.
 #
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
+#
+# Your puzzle answer was 1687.
+#
+# --- Part Two ---
+# Before you can give the destination to the captain, you realize that the actual action meanings were printed on the back of the instructions the whole time.
+#
+# Almost all of the actions indicate how to move a waypoint which is relative to the ship's position:
+#
+# Action N means to move the waypoint north by the given value.
+# Action S means to move the waypoint south by the given value.
+# Action E means to move the waypoint east by the given value.
+# Action W means to move the waypoint west by the given value.
+# Action L means to rotate the waypoint around the ship left (counter-clockwise) the given number of degrees.
+# Action R means to rotate the waypoint around the ship right (clockwise) the given number of degrees.
+# Action F means to move forward to the waypoint a number of times equal to the given value.
+# The waypoint starts 10 units east and 1 unit north relative to the ship. The waypoint is relative to the ship; that is, if the ship moves, the waypoint moves with it.
+#
+# For example, using the same instructions as above:
+#
+# F10 moves the ship to the waypoint 10 times (a total of 100 units east and 10 units north), leaving the ship at east 100, north 10. The waypoint stays 10 units east and 1 unit north of the ship.
+# N3 moves the waypoint 3 units north to 10 units east and 4 units north of the ship. The ship remains at east 100, north 10.
+# F7 moves the ship to the waypoint 7 times (a total of 70 units east and 28 units north), leaving the ship at east 170, north 38. The waypoint stays 10 units east and 4 units north of the ship.
+# R90 rotates the waypoint around the ship clockwise 90 degrees, moving it to 4 units east and 10 units south of the ship. The ship remains at east 170, north 38.
+# F11 moves the ship to the waypoint 11 times (a total of 44 units east and 110 units south), leaving the ship at east 214, south 72. The waypoint stays 4 units east and 10 units south of the ship.
+# After these operations, the ship's Manhattan distance from its starting position is 214 + 72 = 286.
+#
+# Figure out where the navigation instructions actually lead. What is the Manhattan distance between that location and the ship's starting position?
+
+#Screwed up the first time on part 2 because I forgot to account for multiple rotations when you had 270 vs. 90 degrees.
+# Fixed and got it 2nd time though
 
 data = open("input.txt", "r")
 lst = data.read().split("\n")
 print lst
 
-currentDirection = 90;
-eDistance = 0
-nDistance = 0
-wDistance = 0
-sDistance = 0
+eWaypointOffset = 10
+nWaypointOffset = 1
+eBoatDistance = 0
+nBoatDistance = 0
 
 for move in lst:
-    while(currentDirection < 0):
-        currentDirection += 360
-    currentDirection = currentDirection % 360
+    print move
     if(move[0] == 'E'):
-        eDistance += int(move[1:])
+        eWaypointOffset += int(move[1:])
     elif(move[0] == 'W'):
-        wDistance += int(move[1:])
+        eWaypointOffset -= int(move[1:])
     elif(move[0] == 'N'):
-        nDistance += int(move[1:])
+        nWaypointOffset += int(move[1:])
     elif(move[0] == 'S'):
-        sDistance += int(move[1:])
+        nWaypointOffset -= int(move[1:])
     elif(move[0] == 'L'):
-        currentDirection -= int(move[1:])
+        numTimes = int(move[1:])
+        while (numTimes > 1):
+            numTimes -= 90
+            temp = eWaypointOffset;
+            eWaypointOffset = -1 * nWaypointOffset
+            nWaypointOffset = temp
     elif(move[0] == 'R'):
-        currentDirection += int(move[1:])
+        numTimes = int(move[1:])
+        while(numTimes > 1):
+            numTimes -= 90
+            temp = eWaypointOffset;
+            eWaypointOffset = nWaypointOffset
+            nWaypointOffset = temp * -1
     elif(move[0] == 'F'):
-        if(currentDirection == 0):
-            nDistance += int(move[1:])
-        elif(currentDirection == 90):
-            eDistance += int(move[1:])
-        elif(currentDirection == 180):
-            sDistance += int(move[1:])
-        elif(currentDirection == 270):
-            wDistance += int(move[1:])
+        eBoatDistance += (int(move[1:]) * eWaypointOffset)
+        nBoatDistance += (int(move[1:]) * nWaypointOffset)
     else:
         print "error"
+    print ("eboatdis ", eBoatDistance)
+    print ("nboatdis ", nBoatDistance)
+    print ("nwaypoint ", nWaypointOffset)
+    print ("ewaypoint ", eWaypointOffset)
 
-print abs(nDistance - sDistance) + abs(eDistance - wDistance)
-
+print abs(nBoatDistance) + abs(eBoatDistance)
