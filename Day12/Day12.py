@@ -32,6 +32,47 @@
 #
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
 #
+
+data = open("input.txt", "r")
+# copy the data to a list
+lst = data.read().split("\n")[:-1]
+
+# lst = ["F10", "N3", "F7", "L270", "L90", "R90", "F11"]
+
+dir = []
+amt = []
+
+for i in range(0, len(lst)):
+    dir.append(lst[i][0])
+    amt.append(int(lst[i][1:]))
+
+
+def move(direction, amount, orientation, coordinates):
+    orient_list = ['N', 'E', 'S', 'W']
+    if direction == 'N':
+        coordinates[0] += amount
+    elif direction == 'E':
+        coordinates[1] += amount
+    elif direction == 'S':
+        coordinates[0] -= amount
+    elif direction == 'W':
+        coordinates[1] -= amount
+    elif direction == 'L':
+        orientation = (orientation - (amount / 90)) % 4
+    elif direction == 'R':
+        orientation = (orientation + (amount / 90)) % 4
+    elif direction == 'F':
+        move(orient_list[orientation], amount, orientation, coordinates)
+    return orientation, coordinates
+
+
+orient = 1
+coord = [0, 0]
+for i in range(0, len(lst)):
+    orient, coord = move(dir[i], amt[i], orient, coord)
+    # print(dir[i], amt[i], orient, coord)
+print("Part 1: ", abs(coord[0]) + abs(coord[1]))
+
 # Your puzzle answer was 1687.
 #
 # --- Part Two ---
