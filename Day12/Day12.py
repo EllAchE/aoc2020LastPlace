@@ -31,3 +31,44 @@
 # At the end of these instructions, the ship's Manhattan distance (sum of the absolute values of its east/west position and its north/south position) from its starting position is 17 + 8 = 25.
 #
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
+
+data = open("input.txt", "r")
+lst = data.read().split("\n")
+print lst
+
+currentDirection = 90;
+eDistance = 0
+nDistance = 0
+wDistance = 0
+sDistance = 0
+
+for move in lst:
+    while(currentDirection < 0):
+        currentDirection += 360
+    currentDirection = currentDirection % 360
+    if(move[0] == 'E'):
+        eDistance += int(move[1:])
+    elif(move[0] == 'W'):
+        wDistance += int(move[1:])
+    elif(move[0] == 'N'):
+        nDistance += int(move[1:])
+    elif(move[0] == 'S'):
+        sDistance += int(move[1:])
+    elif(move[0] == 'L'):
+        currentDirection -= int(move[1:])
+    elif(move[0] == 'R'):
+        currentDirection += int(move[1:])
+    elif(move[0] == 'F'):
+        if(currentDirection == 0):
+            nDistance += int(move[1:])
+        elif(currentDirection == 90):
+            eDistance += int(move[1:])
+        elif(currentDirection == 180):
+            sDistance += int(move[1:])
+        elif(currentDirection == 270):
+            wDistance += int(move[1:])
+    else:
+        print "error"
+
+print abs(nDistance - sDistance) + abs(eDistance - wDistance)
+
