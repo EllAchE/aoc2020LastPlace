@@ -40,7 +40,7 @@ data = open("input.txt", "r")
 # copy the data to a list
 lst = data.read().split("\n")[:-1]
 
-lst=["mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X", "mem[8] = 11", "mem[7] = 101", "mem[8] = 0"]
+# lst=["mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X", "mem[8] = 11", "mem[7] = 101", "mem[8] = 0"]
 
 datadict = {}
 mask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -52,11 +52,12 @@ for line in lst:
         mask = val
     else:
         idx = int(line.split("[")[1].split("]")[0])
-        binaryval = format(int(val), 'b').zfill(36)
+        binaryval = list(format(int(val), 'b').zfill(36))
         for i in range(0, len(mask)):
             if mask[i] != 'X':
                 # fix this
                 binaryval[i] = mask[i]
+        binaryval = "".join(binaryval)
         datadict[idx] = int(binaryval, 2)
 
 print(sum(datadict.values()))
