@@ -37,4 +37,4 @@
 #
 # Your puzzle input is 18,8,0,5,4,1,20.
 
-input = [18,8,0,5,4,1,20]
+startingNumbers = [18, 8, 0, 5, 4, 1, 20]
