@@ -6,8 +6,10 @@
 # In this game, the players take turns saying numbers. They begin by taking turns reading from a list of starting numbers (your puzzle input). Then, each turn consists of considering the most recently spoken number:
 #
 # If that was the first time the number has been spoken, the current player says 0.
-# Otherwise, the number had been spoken before; the current player announces how many turns apart the number is from when it was previously spoken.
-# So, after the starting numbers, each turn results in that player speaking aloud either 0 (if the last number is new) or an age (if the last number is a repeat).
+# Otherwise, the number had been spoken before; the current player announces how many
+# turns apart the number is from when it was previously spoken.
+# So, after the starting numbers, each turn results in that player speaking aloud either
+# 0 (if the last number is new) or an age (if the last number is a repeat).
 #
 # For example, suppose the starting numbers are 0,3,6:
 #
@@ -37,4 +39,20 @@
 #
 # Your puzzle input is 18,8,0,5,4,1,20.
 
-startingNumbers = [18, 8, 0, 5, 4, 1, 20]
+#if new number say 0
+#if not new say age
+
+import numpy as np
+
+startingNumbers = np.array([18, 8, 0, 5, 4, 1, 20])
+while (len(startingNumbers) < 2020):
+ #print startingNumbers[-1]
+ #print startingNumbers[:-2]
+ occurenceIndexes = np.where(startingNumbers[:-2] == startingNumbers[-1])
+ if occurenceIndexes.size == 0:
+  startingNumbers = np.append(startingNumbers, 0)
+ else:
+  if occurenceIndexes.size == 1:
+   startingNumbers = np.append
+
+#print startingNumbers
