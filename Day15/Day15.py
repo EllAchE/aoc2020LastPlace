@@ -6,6 +6,8 @@
 # In this game, the players take turns saying numbers. They begin by taking turns reading from a list of starting numbers (your puzzle input). Then, each turn consists of considering the most recently spoken number:
 #
 # If that was the first time the number has been spoken, the current player says 0.
+# Otherwise, the number had been spoken before; the current player announces how many turns apart the number is from when it was previously spoken.
+# So, after the starting numbers, each turn results in that player speaking aloud either 0 (if the last number is new) or an age (if the last number is a repeat).
 # Otherwise, the number had been spoken before; the current player announces how many
 # turns apart the number is from when it was previously spoken.
 # So, after the starting numbers, each turn results in that player speaking aloud either
@@ -37,22 +39,33 @@
 # Given the starting numbers 3,1,2, the 2020th number spoken is 1836.
 # Given your starting numbers, what will be the 2020th number spoken?
 #
-# Your puzzle input is 18,8,0,5,4,1,20.
+#
+# --- Part Two ---
+# Impressed, the Elves issue you a challenge: determine the 30000000th number spoken. For example, given the same starting numbers as above:
+#
+# Given 0,3,6, the 30000000th number spoken is 175594.
+# Given 1,3,2, the 30000000th number spoken is 2578.
+# Given 2,1,3, the 30000000th number spoken is 3544142.
+# Given 1,2,3, the 30000000th number spoken is 261214.
+# Given 2,3,1, the 30000000th number spoken is 6895259.
+# Given 3,2,1, the 30000000th number spoken is 18.
+# Given 3,1,2, the 30000000th number spoken is 362.
+# Given your starting numbers, what will be the 30000000th number spoken?
 
-#if new number say 0
-#if not new say age
+data = {18: [1], 8: [2], 0: [3], 5: [4], 4: [5], 1: [6], 20: [7]}
+spoken = 20
 
-import numpy as np
-
-startingNumbers = np.array([18, 8, 0, 5, 4, 1, 20])
-while (len(startingNumbers) < 2020):
- #print startingNumbers[-1]
- #print startingNumbers[:-2]
- occurenceIndexes = np.where(startingNumbers[:-2] == startingNumbers[-1])
- if occurenceIndexes.size == 0:
-  startingNumbers = np.append(startingNumbers, 0)
- else:
-  if occurenceIndexes.size == 1:
-   startingNumbers = np.append
-
-#print startingNumbers
+for turn in range(8, 30000001):
+    if len(data[spoken]) < 2:
+        spoken = 0
+        if 0 not in data:
+            data[0] = [turn]
+        else:
+            data[0].append(turn)
+    else:
+        spoken = data[spoken][-1] - data[spoken][-2]
+        if spoken not in data:
+            data[spoken] = [turn]
+        else:
+            data[spoken].append(turn)
+print(spoken)
