@@ -37,8 +37,6 @@
 
 # Consider the validity of the nearby tickets you scanned. What is your ticket scanning error rate?
 
-
-
 data = open("input.txt").readlines()
 
 tickets = []
@@ -84,45 +82,3 @@ print("Part 1: ", total)
 
 # Once you work out which field is which, look for the six fields on your ticket that start with the word departure. What do you get if you multiply those six values together?
 
-data = open("input.txt").readlines()
-
-tickets = []
-set_range = set()
-total = 0
-
-departure location = [31,538]
-departure location2 = 546-960
-departure station: 39-660 or 673-960
-departure platform: 35-731 or 745-968
-departure track: 43-179 or 185-953
-departure date: 29-250 or 263-949
-departure time: 43-903 or 928-954
-arrival location: 46-372 or 384-968
-arrival station: 36-215 or 225-950
-arrival platform: 25-631 or 655-950
-arrival track: 26-768 or 781-962
-class: 29-462 or 478-974
-duration: 34-441 or 455-963
-price: 39-683 or 693-956
-route: 36-342 or 348-971
-row: 37-501 or 520-963
-seat: 46-356 or 369-973
-train: 43-414 or 423-954
-type: 35-160 or 178-950
-wagon: 29-878 or 889-959
-zone: 31-188 or 201-971
-
-for line in data:
-    if "ticket" in line:
-        continue
-    elif ":" in line:
-        name, ranges = line.split(": ")
-        a, b = ranges.split(" or ")
-        x1, y1 = [int(z) for z in a.split("-")]
-        x2, y2 = [int(z) for z in b.split("-")]
-        set_range |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
-    elif "," in line:
-        ticket = [int(l) for l in line.split(",")]
-        for field in ticket:
-            if field not in set_range:
-                total += field
