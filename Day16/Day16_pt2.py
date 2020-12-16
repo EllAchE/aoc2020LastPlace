@@ -21,10 +21,9 @@
 # Once you work out which field is which, look for the six fields on your ticket that start with the word departure. What do you get if you multiply those six values together?
 
 class Field:
-    def __init__(self, name, range_1, range_2):
+    def __init__(self, name, range_set):
         self.name = name
-        self.range_1 = range_1
-        self.range_2 = range_2
+        self.range_set = range_set
 
 
 class Range:
@@ -38,17 +37,19 @@ data = open("input.txt").readlines()
 tickets = []
 fieldDefinitions = []
 fieldNames = [''] * 20
-range_set = set()
 
 for line in data:
     if "ticket" in line:
         continue
     elif ":" in line:
+        range_set = set()
         name, ranges = line.split(": ")
         a, b = ranges.split(" or ")
         x1, y1 = [int(z) for z in a.split("-")]
         x2, y2 = [int(z) for z in b.split("-")]
         range_set |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
+        print range_set
+        print ('ranges', x1, y1, x2, y2)
         fieldDefinitions.append(Field(name, range_set))
     elif "," in line:
         validTicket = True
@@ -61,8 +62,23 @@ for line in data:
 
 print tickets
 i = 0
+
 while i < 20:
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
+        print('tick i', tick[1], 'val i', i)
+    print ('temp set ',temp_set)
+    for field in fieldDefinitions:
+        print ('field range', field.range_set)
+        for val in temp_set:
+            correct_field = True
+            if val not in field.range_set:
+                correct_field = False
+        if correct_field:
+            fieldNames[i] = field.name
+            break
+    i = i + 1
+print fieldNames
+
 

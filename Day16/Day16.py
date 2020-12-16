@@ -39,7 +39,7 @@
 
 data = open("input.txt").readlines()
 
-tickets = []
+tickets = list()
 set_range = set()
 total = 0
 
@@ -53,7 +53,7 @@ for line in data:
         x2, y2 = [int(z) for z in b.split("-")]
         set_range |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
     elif "," in line:
-        ticket = [int(l) for l in line.split(",")]
+        ticket = list(int(l) for l in line.split(","))
         for field in ticket:
             if field not in set_range:
                 total += field 
