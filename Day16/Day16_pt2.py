@@ -21,15 +21,13 @@
 # Once you work out which field is which, look for the six fields on your ticket that start with the word departure. What do you get if you multiply those six values together?
 
 class Field:
-    def __init__(self, name, range_set):
+    def __init__(self, name, range_set, lower_mid, upper_mid):
         self.name = name
         self.range_set = range_set
-
-
-class Range:
-    def __init__(self, low, high):
-        self.low = low
-        self.high = high
+        self.max = max(range_set)
+        self.min = min(range_set)
+        self.lower_mid = lower_mid
+        self.upper_mid = upper_mid
 
 
 data = open("input.txt").readlines()
@@ -48,7 +46,7 @@ for line in data:
         x1, y1 = [int(z) for z in a.split("-")]
         x2, y2 = [int(z) for z in b.split("-")]
         range_set |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
-        fieldDefinitions.append(Field(name, range_set))
+        fieldDefinitions.append(Field(name, range_set, y1, x2))
     elif "," in line:
         validTicket = True
         ticket = [int(l) for l in line.split(",")]
@@ -64,14 +62,17 @@ while i < 20:
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
+    #print ('temp_set_max', max(temp_set), 'temp_set_min', min(temp_set))
     for field in fieldDefinitions:
+        #print sorted(temp_set)
+        #print ('max field range', field.max, 'min', field.min, 'lower mid', field.lower_mid, 'upper mid', field.upper_mid)
         for val in temp_set:
             correct_field = True
             if val not in field.range_set:
                 correct_field = False
         if correct_field:
             potential_field_names = potential_field_names.__add__([field.name])
-            print potential_field_names
+    print potential_field_names
 
     fieldNames.__add__(potential_field_names)
     i = i + 1
