@@ -81,7 +81,13 @@ while i < 20:
     i = i + 1
 
 fieldNames.sort(key=len, reverse=True)
-for a in fieldNames:
-    print a
+all_field_names = list()
+for f in fieldDefinitions:
+    all_field_names.append(f.name)
+    print
+print all_field_names
+#for fieldSet in fieldNames:
+ #   print fieldSet
+
 
 
