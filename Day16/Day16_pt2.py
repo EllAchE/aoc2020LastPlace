@@ -67,12 +67,12 @@ while i < 20:
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
-        print('tick i', tick[1], 'val i', i)
+        print('tick i', tick[i], 'val i', i)
     print ('temp set ',temp_set)
     for field in fieldDefinitions:
         print ('field range', field.range_set)
+        correct_field = True
         for val in temp_set:
-            correct_field = True
             if val not in field.range_set:
                 correct_field = False
         if correct_field:
