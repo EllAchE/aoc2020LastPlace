@@ -26,16 +26,18 @@ class Field:
         self.range_1 = range_1
         self.range_2 = range_2
 
+
 class Range:
     def __init__(self, low, high):
         self.low = low
         self.high = high
 
+
 data = open("input.txt").readlines()
 
 tickets = []
-fields = []
-total = 0
+fieldDefinitions = []
+fieldNames = [''] * 20
 set_range = set()
 
 for line in data:
@@ -46,9 +48,13 @@ for line in data:
         a, b = ranges.split(" or ")
         x1, y1 = [int(z) for z in a.split("-")]
         x2, y2 = [int(z) for z in b.split("-")]
-        fields.append(Field(name, Range(x1, y1), Range(x2, y2)))
+        fieldDefinitions.append(Field(name, Range(x1, y1), Range(x2, y2)))
+        set_range |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
     elif "," in line:
+        validTicket = True
         ticket = [int(l) for l in line.split(",")]
         for field in ticket:
             if field not in set_range:
-                total += field
+                validTicket = False
+        if validTicket:
+            tickets.append(ticket)
