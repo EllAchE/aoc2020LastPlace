@@ -35,18 +35,20 @@ data = open("input.txt").readlines()
 tickets = []
 fieldDefinitions = []
 fieldNames = list()
+range_set = set()
 
 for line in data:
     if "ticket" in line:
         continue
     elif ":" in line:
-        range_set = set()
+        temp_range_set = set()
         name, ranges = line.split(": ")
         a, b = ranges.split(" or ")
         x1, y1 = [int(z) for z in a.split("-")]
         x2, y2 = [int(z) for z in b.split("-")]
         range_set |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
-        fieldDefinitions.append(Field(name, range_set, y1, x2))
+        temp_range_set |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
+        fieldDefinitions.append(Field(name, temp_range_set, y1, x2))
     elif "," in line:
         validTicket = True
         ticket = [int(l) for l in line.split(",")]
@@ -58,26 +60,27 @@ for line in data:
 
 i = 0
 while i < 20:
-    potential_field_names = []
+    invalid_field_names = list()
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
-    #print ('temp_set_max', max(temp_set), 'temp_set_min', min(temp_set))
+    print ('temp_set_max', max(temp_set), 'temp_set_min', min(temp_set))
     for field in fieldDefinitions:
         #print sorted(temp_set)
         #print ('max field range', field.max, 'min', field.min, 'lower mid', field.lower_mid, 'upper mid', field.upper_mid)
         for val in temp_set:
-            correct_field = True
-            if val not in field.range_set:
-                correct_field = False
-        if correct_field:
-            potential_field_names = potential_field_names.__add__([field.name])
-    print potential_field_names
-
-    fieldNames.__add__(potential_field_names)
+           if ((val > field.min and val < field.lower_mid) or (val < field.max and val > field.upper_mid)):
+               pass
+           else:
+               #print ('out of range', val)
+               invalid_field_names = invalid_field_names.__add__([field.name])
+    invalid_field_names = list(set(invalid_field_names))
+    print invalid_field_names
+    print len(invalid_field_names)
+    fieldNames.__add__(invalid_field_names)
     i = i + 1
-print potential_field_names
-print
-print fieldNames
+#print potential_field_names
+#print
+#print fieldNames
 
 
