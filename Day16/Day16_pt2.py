@@ -36,7 +36,7 @@ data = open("input.txt").readlines()
 
 tickets = []
 fieldDefinitions = []
-fieldNames = [''] * 20
+fieldNames = list()
 
 for line in data:
     if "ticket" in line:
@@ -48,8 +48,6 @@ for line in data:
         x1, y1 = [int(z) for z in a.split("-")]
         x2, y2 = [int(z) for z in b.split("-")]
         range_set |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
-        print range_set
-        print ('ranges', x1, y1, x2, y2)
         fieldDefinitions.append(Field(name, range_set))
     elif "," in line:
         validTicket = True
@@ -60,25 +58,25 @@ for line in data:
         if validTicket:
             tickets.append(ticket)
 
-print tickets
 i = 0
-
 while i < 20:
+    potential_field_names = []
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
-        print('tick i', tick[i], 'val i', i)
-    print ('temp set ',temp_set)
     for field in fieldDefinitions:
-        print ('field range', field.range_set)
-        correct_field = True
         for val in temp_set:
+            correct_field = True
             if val not in field.range_set:
                 correct_field = False
         if correct_field:
-            fieldNames[i] = field.name
-            break
+            potential_field_names = potential_field_names.__add__([field.name])
+            print potential_field_names
+
+    fieldNames.__add__(potential_field_names)
     i = i + 1
+print potential_field_names
+print
 print fieldNames
 
 
