@@ -60,11 +60,11 @@ for line in data:
 
 i = 0
 while i < 20:
-    invalid_field_names = list()
+    invalid_field_names = list(list())
     temp_set = set()
     for tick in tickets:
         temp_set.add(tick[i])
-    print ('temp_set_max', max(temp_set), 'temp_set_min', min(temp_set))
+    #print ('temp_set_max', max(temp_set), 'temp_set_min', min(temp_set))
     for field in fieldDefinitions:
         #print sorted(temp_set)
         #print ('max field range', field.max, 'min', field.min, 'lower mid', field.lower_mid, 'upper mid', field.upper_mid)
@@ -75,12 +75,13 @@ while i < 20:
                #print ('out of range', val)
                invalid_field_names = invalid_field_names.__add__([field.name])
     invalid_field_names = list(set(invalid_field_names))
-    print invalid_field_names
-    print len(invalid_field_names)
-    fieldNames.__add__(invalid_field_names)
+    #print invalid_field_names
+    #print len(invalid_field_names)
+    fieldNames.append(invalid_field_names)
     i = i + 1
-#print potential_field_names
-#print
-#print fieldNames
+
+fieldNames.sort(key=len, reverse=True)
+for a in fieldNames:
+    print a
 
 
