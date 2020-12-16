@@ -38,6 +38,7 @@
 # Consider the validity of the nearby tickets you scanned. What is your ticket scanning error rate?
 
 data = open("input.txt").readlines()
+clean_data = data[:]
 
 tickets = list()
 set_range = set()
@@ -53,10 +54,18 @@ for line in data:
         x2, y2 = [int(z) for z in b.split("-")]
         set_range |= set(range(x1, y1 + 1)).union(set(range(x2, y2 + 1)))
     elif "," in line:
+<<<<<<< Updated upstream
         ticket = list(int(l) for l in line.split(","))
+=======
+        invalid = False
+        ticket = [int(l) for l in line.split(",")]
+>>>>>>> Stashed changes
         for field in ticket:
             if field not in set_range:
-                total += field 
+                total += field
+                invalid = True
+        if invalid:
+            clean_data.remove(line)
 
 print("Part 1: ", total)
 
@@ -82,3 +91,56 @@ print("Part 1: ", total)
 
 # Once you work out which field is which, look for the six fields on your ticket that start with the word departure. What do you get if you multiply those six values together?
 
+new_range = {}
+
+for line in clean_data:
+    if ":" in line:
+        name, ranges = line.split(": ")
+        a, b = ranges.split(" or ")
+        x1, y1 = [int(z) for z in a.split("-")]
+        x2, y2 = [int(z) for z in b.split("-")]
+        new_range[name] = [[x1, y1], [x2, y2]]
+    else:
+        break
+
+possibilities = []
+
+for i in range(0, len(new_range.keys())):
+    possibilities.append(new_range.keys()[:])
+
+for line in clean_data:
+    if "," in line:
+        ticket = [int(l) for l in line.split(",")]
+        for field in range(0, len(ticket)):
+            temp = possibilities[field][:]
+            for p in possibilities[field]:
+                bounds = new_range[p]
+                if bounds[0][1] < ticket[field] < bounds[1][0] or ticket[field] < bounds[0][0] or ticket[field] > bounds[1][1]:
+                    temp.remove(p)
+            possibilities[field] = temp
+    else:
+        continue
+
+fin = False
+i = 0
+while not fin:
+    if len(possibilities[i]) == 1:
+        for p in range(0, len(possibilities)):
+            if p != i and possibilities[i][0] in possibilities[p]:
+                possibilities[p].remove(possibilities[i][0])
+    i += 1
+    i = i % len(possibilities)
+    fin = True
+    for p in possibilities:
+        if len(p) != 1:
+            fin = False
+
+print(possibilities)
+
+myticket = [137,149,139,127,83,61,89,53,73,67,131,113,109,101,71,59,103,97,107,79]
+ans = 1
+for p in range(0, len(possibilities)):
+    if "departure " in possibilities[p][0]:
+        ans *= myticket[p]
+
+print(ans)
