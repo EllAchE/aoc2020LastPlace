@@ -53,6 +53,7 @@ class Cube:
         self.active = state
 
 cube_list = list()
+active_cubes_only_list = list()
 i = -7
 j = -7
 k = -7
@@ -70,20 +71,75 @@ cube_list.sort(key=lambda a: a.z)
 cube_list.sort(key=lambda a: a.y)
 cube_list.sort(key=lambda a: a.x)
 
-data = open("input.txt").readlines()
-initial_active_list = list()
+def process_data():
+    data = open("input.txt").readlines()
+    initial_active_list = list()
 
-xval = 0
-for line in data:
-    yval = 0
-    while(yval < 7)
-        if (line[yval] == '#'):
-            initial_active_list.append([xval, yval, 0])
-        else:
-            pass
+    xval = 0
+    for line in data:
+        yval = 0
+        while(yval < 7):
+            if (line[yval] == '#'):
+                initial_active_list.append([xval, yval, 0])
+                tempCube = Cube(xval, yval, 0)
+                tempCube.set_Active(True)
+                active_cubes_only_list.append(tempCube)
+            else:
+                pass
+            yval += 1
+        xval += 1
+    return active_cubes_only_list
 
+def filter_x(obj, match_list):
+    if (obj.x in match_list):
+        return True
+    else:
+        return False
 
+def filter_y(obj, match_list):
+    if (obj.y in match_list):
+        return True
+    else:
+        return False
 
-print cube_list
+def filter_z(obj, match_list):
+    if (obj.z in match_list):
+        return True
+    else:
+        return False
+
+active_cubes_only_list = process_data()
+active_cubes_only_list.sort(key=lambda a: a.z)
+active_cubes_only_list.sort(key=lambda a: a.y)
+active_cubes_only_list.sort(key=lambda a: a.x)
+
+newly_active_cubes = list()
+
+for cube in active_cubes_only_list:
+    x_vals = [cube.x + 1, cube.x - 1]
+    x_rows = [a for a in active_cubes_only_list if a.x in x_vals]
+    print x_rows
+    #filter(filter_x(cube, x_vals), active_cubes_only_list)
+    #filter(filter_y(cube, y_vals), active_cubes_only_list)
+    #filter(filter_z(cube, z_vals), active_cubes_only_list)
+print 'test'
+
+# If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active. Otherwise, the cube becomes inactive.
+# If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
+
+# What I want to happen. Look one at a time through the possible cubes on the same row in the x y and z direction that
+# would create new active cubes. Store the potential new active cubes.
+
+# Next loop through all current active cubes and see if they should turn into inactive cubes. Store the cubes to be set inactive
+
+# Now set all newly active cubes. Then deactive cubes.
+
+#first find new cubes that will be set to active
+#loop through list and compare the xyz to see
+#Only those with coordinates within 2 each direction works
+
+#then find cubes that must be set to inactive
+#loop through list and compare xyz to see
+#easy as you have to look at most 25 places
 
 
