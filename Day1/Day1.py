@@ -17,3 +17,5 @@ def process(value):
 
 for line in lst:
 	process(int(line))
+
+print 'test'
