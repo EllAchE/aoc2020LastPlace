@@ -32,20 +32,46 @@
 # Starting with your given initial configuration, simulate six cycles. How many cubes are left in the active state after the sixth cycle?
 
 ###INPUT###
-...#...#
-..##.#.#
-###..#..
-........
-...##.#.
-.#.####.
-...####.
-..##...
-# Define Bottom Left as 0,0,0
+# ...#...#
+# ..##.#.#
+# ###..#..
+# ........
+# ...##.#.
+# .#.####.
+# ...####.
+# ..##...#
+# Define Top Left as 0,0,0. Top right would be 8,0,0. Bottom right is 8,8,0.
 
 class Cube:
-    def __init__(self, x, y, z, active):
+    def __init__(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
-        self.active = active
+        self.active = False
+
+    def set_Active(self, state):
+        self.active = state
+
+cube_list = list()
+i = -7
+j = -7
+k = -7
+while i < 15:
+    j = -7
+    while j < 15:
+        k = -7
+        while k < 7:
+            cube_list.append(Cube(i, j, k))
+            k += 1
+        j += 1
+    i += 1
+
+cube_list.sort(key=lambda a: a.z)
+cube_list.sort(key=lambda a: a.y)
+cube_list.sort(key=lambda a: a.x)
+
+initial_active_list =
+
+print cube_list
+
 
