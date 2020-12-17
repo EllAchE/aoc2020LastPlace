@@ -82,9 +82,11 @@ while i < 20:
 
 fieldNames.sort(key=len, reverse=True)
 all_field_names = list()
+
+#FROM HERE WE JUST NEED THE SYMMETRIC DIFFERENCE THEN TO ELIMINATE OPTIONS
+
 for f in fieldDefinitions:
     all_field_names.append(f.name)
-    print
 print all_field_names
 #for fieldSet in fieldNames:
  #   print fieldSet
