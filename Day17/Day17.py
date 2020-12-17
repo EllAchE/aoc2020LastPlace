@@ -70,7 +70,19 @@ cube_list.sort(key=lambda a: a.z)
 cube_list.sort(key=lambda a: a.y)
 cube_list.sort(key=lambda a: a.x)
 
-initial_active_list =
+data = open("input.txt").readlines()
+initial_active_list = list()
+
+xval = 0
+for line in data:
+    yval = 0
+    while(yval < 7)
+        if (line[yval] == '#'):
+            initial_active_list.append([xval, yval, 0])
+        else:
+            pass
+
+
 
 print cube_list
 
