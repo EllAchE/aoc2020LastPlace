@@ -31,31 +31,42 @@
 # ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 becomes 13632.
 # Before you can help with the homework, you need to understand it yourself. Evaluate the expression on each line of the homework; what is the sum of the resulting values?
 
+import re
+
 data = open("input.txt", "r")
 # copy the data to a list
 lst = data.read().split("\n")[:-1]
 
 #add parenthesis around any addition then use eval
 
+sums = list()
 for line in lst:
+    print ('line', line)
     i = 0
     line_as_list = list(line)
+
     while i < len(line_as_list):
         debug = line_as_list[i]
         if debug == '+':
-            line_as_list.insert(i-3, '(')
+            line_as_list.insert(i-2, '(')
             line_as_list.insert(i+4, ')')
             i +=1
         i+=1
+
+
     new_line = ""
     for char in line_as_list:
         new_line+= char
-    print line_as_list
-    print new_line
+
+    print ('new_line', new_line)
+    new_line = re.sub('(\(\))', '', new_line)
+    print ('new_line with regex', new_line)
+    sums.append(eval(new_line))
+
+    total = 0
+    for sum in sums:
+        total += sum
 
 
-
-
-
-print lst
-
+print sums
+print total
