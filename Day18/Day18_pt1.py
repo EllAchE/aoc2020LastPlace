@@ -53,7 +53,6 @@ for line in lst:
             i +=1
         i+=1
 
-
     new_line = ""
     for char in line_as_list:
         new_line+= char
