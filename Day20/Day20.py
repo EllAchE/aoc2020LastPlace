@@ -202,7 +202,27 @@ def get_top(image):
         bottom_list.append(char)
     return bottom_list
 
+def no_empty_list(list_in):
+    i = 0
+    iterate = len(list_in)
+    while i < iterate:
+        try:
+            list_in.remove('')
+            i += 1
+        except:
+            break
+    return list_in
 
+def no_newline_list(list_in):
+    i = 0
+    iterate = len(list_in)
+    while i < iterate:
+        try:
+            list_in.pop(1 + i)
+            i += 1
+        except:
+            break
+    return list_in
 
 class tile:
     def __init__(self, id, image):
@@ -215,3 +235,19 @@ class tile:
         self.right_side_flipped = reversed(self.right_side)
         self.bottom_side_flipped = reversed(self.bottom_side)
         self.top_side = reversed(self.top_side)
+
+
+import re
+data = open("input.txt", "r").read()
+data_str = data
+lst = re.split('Tile ', data_str)
+lst = no_empty_list(lst)
+
+lst_of_lst = list()
+
+for str in lst:
+    str = re.split('(\\n)', str)
+    str = no_newline_list(str)
+    str = no_empty_list(str)
+    lst_of_lst.append(str)
+    print str
