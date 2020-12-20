@@ -165,42 +165,31 @@
 # 1951    2311    3079
 # 2729    1427    2473
 # 2971    1489    1171
-# To check that you've assembled the image correctly, multiply the IDs of the four corner tiles together. If you do this with the assembled tiles from the example above, you get 1951 * 3079 * 2971 * 1171 = 20899048083289.
+# To check that you've assembled the image correctly, multiply the IDs of the four corner tiles together. If you do
+# this with the assembled tiles from the example above, you get 1951 * 3079 * 2971 * 1171 = 20899048083289.
 #
 # Assemble the tiles into an image. What do you get if you multiply together the IDs of the four corner tiles?
 
 def get_left(image):
-    lst = image.split()
     left_list = list()
-    for char in lst[0]:
-        left_list.append(char)
+    for line in image:
+        left_list.append(line[0])
     return left_list
 
 
 def get_right(image):
-    lst = image.split()
     left_list = list()
-    for char in lst[-1]:
-        left_list.append(char)
+    for line in image:
+        left_list.append(line[-1])
     return left_list
 
 
 def get_bottom(image):
-    lst = image.split()
-    bottom = lst[-1]
-    bottom_list = list()
-    for char in bottom:
-        bottom_list.append(char)
-    return bottom_list
+    return image[-1]
 
 
 def get_top(image):
-    lst = image.split()
-    bottom = lst[0]
-    bottom_list = list()
-    for char in bottom:
-        bottom_list.append(char)
-    return bottom_list
+    return image[0]
 
 def no_empty_list(list_in):
     i = 0
@@ -224,7 +213,7 @@ def no_newline_list(list_in):
             break
     return list_in
 
-class tile:
+class Tile:
     def __init__(self, id, image):
         self.id = id
         self.left_side = get_left(image)
@@ -251,3 +240,15 @@ for str in lst:
     str = no_empty_list(str)
     lst_of_lst.append(str)
     print str
+
+obj_lst = list()
+
+a4test = 'test'
+
+print a4test.
+
+for lst in lst_of_lst:
+    obj_lst.append(Tile(lst[0], lst[1:]))
+
+print obj_lst
+
