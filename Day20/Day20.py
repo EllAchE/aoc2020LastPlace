@@ -126,6 +126,7 @@
 # ..#.###...
 # ..#.......
 # ..#.###...
+
 # By rotating, flipping, and rearranging them, you can find a square arrangement that causes all adjacent borders to line up:
 #
 # #...##.#.. ..###..### #.#.#####.
@@ -170,6 +171,20 @@
 #
 # Assemble the tiles into an image. What do you get if you multiply together the IDs of the four corner tiles?
 
+import re
+
+
+def reverse_string(string):
+    new_str_list = list()
+    for char in string:
+        new_str_list.append(char)
+    new_str_list = new_str_list.reverse()
+    new_str = ""
+    for char in new_str_list:
+        new_str += char
+    return new_str
+
+
 def get_left(image):
     left_list = list()
     for line in image:
@@ -185,11 +200,17 @@ def get_right(image):
 
 
 def get_bottom(image):
-    return image[-1]
+    bottom_list = list()
+    for char in image[-1]:
+        bottom_list.append(char)
+    return bottom_list
 
 
 def get_top(image):
-    return image[0]
+    bottom_list = list()
+    for char in image[0]:
+        bottom_list.append(char)
+    return bottom_list
 
 def no_empty_list(list_in):
     i = 0
@@ -213,6 +234,14 @@ def no_newline_list(list_in):
             break
     return list_in
 
+
+def match_bottoms_and_tops(obj_list):
+    return None
+
+def match_left_and_right(obj_list):
+    return None
+
+
 class Tile:
     def __init__(self, id, image):
         self.id = id
@@ -220,13 +249,20 @@ class Tile:
         self.right_side = get_right(image)
         self.bottom_side = get_bottom(image)
         self.top_side = get_top(image)
-        self.left_side_flipped = reversed(self.left_side)
-        self.right_side_flipped = reversed(self.right_side)
-        self.bottom_side_flipped = reversed(self.bottom_side)
-        self.top_side = reversed(self.top_side)
+        self.left_side_flipped = [e for e in self.left_side]
+        self.right_side_flipped = [e for e in self.right_side]
+        self.bottom_side_flipped = [e for e in self.bottom_side]
+        self.top_side_reversed = [e for e in self.top_side]
+        self.left_side.reverse()
+        self.right_side.reverse()
+        self.bottom_side.reverse()
+        self.top_side.reverse()
+        self.side_match_count = 0
+
+    def add_match(self):
+        self.side_match_count += 1
 
 
-import re
 data = open("input.txt", "r").read()
 data_str = data
 lst = re.split('Tile ', data_str)
@@ -243,12 +279,43 @@ for str in lst:
 
 obj_lst = list()
 
-a4test = 'test'
-
-print a4test.
-
 for lst in lst_of_lst:
     obj_lst.append(Tile(lst[0], lst[1:]))
 
 print obj_lst
+
+# All that you need to solved this problem now is to find whichever Tile it is that only has matches on 2 sides (I believe,
+# this assumes that you don;t have to jigsaw the Tiles to solve the problem
+
+i = 0
+lits_len = len(obj_lst)
+while i < lits_len - 1:
+    temp_r = obj_lst[i].right_side
+    temp_r_r = obj_lst[i].right_side_flipped
+    temp_l = obj_lst[i].left_side
+    temp_l_r = obj_lst[i].left_side_flipped
+    temp_t = obj_lst[i].top_side
+    temp_t_r = obj_lst[i].top_side_reversed
+    temp_b = obj_lst[i].bottom_side
+    temp_b_r = obj_lst[i].bottom_side_flipped
+
+    base_lst = [temp_r, temp_l, temp_r_r, temp_l_r, temp_t, temp_b, temp_t_r, temp_b_r]
+
+    for obj in obj_lst[i+1:]:
+        comp_lst = [obj.right_side, obj.left_side, obj.top_side, obj.bottom_side]
+        for side in comp_lst:
+            if side in base_lst:
+                obj_lst[i].add_match()
+                obj.add_match()
+        if obj_lst[i].side_match_count > 3:
+            break
+
+    i += 1
+
+for item in obj_lst:
+    if item.side_match_count == 2:
+        print item.id
+
+print obj_lst
+
 
