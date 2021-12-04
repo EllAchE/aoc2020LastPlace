@@ -1,2 +1,5 @@
 # aoc2020LastPlace
-Advent of Code 2020
+
+Solutions for problems from Advent of Code 2020
+
+https://adventofcode.com/2020
